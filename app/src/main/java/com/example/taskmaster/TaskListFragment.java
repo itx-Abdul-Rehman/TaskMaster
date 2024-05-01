@@ -1,6 +1,9 @@
 package com.example.taskmaster;
 
+import static com.example.taskmaster.MyApplication.taskModels;
+
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,24 +11,36 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class TaskListFragment extends Fragment {
-    View view;
+
+
+public class TaskListFragment extends Fragment implements  ItemClickListener {
+    View view,cardsView;
     View popupView;
     Button addButton;
     RecyclerView recyclerView;
-    ArrayList<TaskModel> taskModels=new ArrayList<>();
+    RadioButton radioButton;
+   // ArrayList<TaskModel> taskModels=new ArrayList<>();
+
+    TextView taskName,date,time;
     public TaskListFragment() {
 
     }
@@ -35,7 +50,8 @@ public class TaskListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        popupView=inflater.inflate(R.layout.input_popup,container,false);
+       cardsView=inflater.inflate(R.layout.my_task_list_layout,container,false);
+        popupView=inflater.inflate(R.layout.activity_dashboard,container,false);
         view=inflater.inflate(R.layout.fragment_task_list, container, false);
 
         return  view;
@@ -47,6 +63,8 @@ public class TaskListFragment extends Fragment {
 
         recyclerView=view.findViewById(R.id.recyclerView);
         addButton=view.findViewById(R.id.button);
+        radioButton=cardsView.findViewById(R.id.radioButton);
+
 
         MyTaskListAdpater myTaskListAdpater=new MyTaskListAdpater(taskModels);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
@@ -56,63 +74,35 @@ public class TaskListFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTask();
+                Intent intent=new Intent(getContext(),inputActivity.class);
+                startActivity(intent);
             }
         });
 
 
 
+       myTaskListAdpater.onItemClickListener(this);
 
-        addTask();
+    }
 
+
+
+
+
+    @Override
+    public void onCLick(View v, int pos) {
+        Toast.makeText(getContext(),taskModels.get(pos).getTaskName(),
+                Toast.LENGTH_LONG).show();
+
+
+        FragmentManager manager;
+        TaskDetailsFragment taskDetailsFragment=new TaskDetailsFragment(pos);
+        manager=getActivity().getSupportFragmentManager();
+        FragmentTransaction ft=manager.beginTransaction();
+        ft.replace(R.id.frameLayout,taskDetailsFragment);
+        ft.commit();
+        ft.addToBackStack(null);
     }
 
 
-    private  void addTask(){
-
-
-
-         LayoutInflater inflater=(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
-         View popup=inflater.inflate(R.layout.input_popup,null,false);
-
-         int width= ViewGroup.LayoutParams.MATCH_PARENT;
-         int height= ViewGroup.LayoutParams.WRAP_CONTENT;
-         PopupWindow popupWindow=new PopupWindow(popup,width,height,true);
-         CardView cardView=popupView.findViewById(R.id.inputCard);
-
-         cardView.post(new Runnable() {
-             @Override
-             public void run() {
-                 popupWindow.showAtLocation(cardView, Gravity.BOTTOM,0,0);
-             }
-         });
-
-
-
-        TaskModel taskModel=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel2=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel3=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel4=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel5=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel6=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel7=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel8=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel9=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel10=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel12=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        TaskModel taskModel11=new TaskModel("Assignment MAD 2","1 May, ","11:59pm");
-        taskModels.add(taskModel);
-        taskModels.add(taskModel2);
-        taskModels.add(taskModel3);
-        taskModels.add(taskModel4);
-        taskModels.add(taskModel5);
-        taskModels.add(taskModel6);
-        taskModels.add(taskModel7);
-        taskModels.add(taskModel8);
-        taskModels.add(taskModel9);
-        taskModels.add(taskModel10);
-        taskModels.add(taskModel11);
-        taskModels.add(taskModel12);
-
-    }
 }

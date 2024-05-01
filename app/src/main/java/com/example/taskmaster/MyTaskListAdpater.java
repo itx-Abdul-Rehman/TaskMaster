@@ -14,6 +14,11 @@ import java.util.ArrayList;
 public class MyTaskListAdpater extends RecyclerView.Adapter<MyTaskListAdpater.MyViewHolder> {
 
     private ArrayList<TaskModel> taskModels=new ArrayList<>();
+    private ItemClickListener clickListener;
+
+    public void onItemClickListener(ItemClickListener clickListener){
+        this.clickListener=clickListener;
+    }
 
     public MyTaskListAdpater(ArrayList<TaskModel> taskModels) {
         this.taskModels = taskModels;
@@ -37,6 +42,8 @@ public class MyTaskListAdpater extends RecyclerView.Adapter<MyTaskListAdpater.My
         holder.date.setText(taskModel.getDate());
         holder.time.setText(taskModel.getTime());
 
+
+
     }
 
 
@@ -46,7 +53,7 @@ public class MyTaskListAdpater extends RecyclerView.Adapter<MyTaskListAdpater.My
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
        RadioButton radioButton;
        TextView taskName,date,time;
 
@@ -56,6 +63,18 @@ public class MyTaskListAdpater extends RecyclerView.Adapter<MyTaskListAdpater.My
             taskName=itemView.findViewById(R.id.taskName);
             date=itemView.findViewById(R.id.date);
             time=itemView.findViewById(R.id.time);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            if(clickListener!=null){
+                clickListener.onCLick(v,getAdapterPosition());
+            }
+        }
+
+
+
     }
 }

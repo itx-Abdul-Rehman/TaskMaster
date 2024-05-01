@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else{
-            transactionFragment(signup_fragment);
+            transactionFragment(signin_Fragment);
         }
 
 

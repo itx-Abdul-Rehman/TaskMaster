@@ -4,11 +4,43 @@ public class TaskModel {
     private String taskName;
     private String date;
     private String time;
+    private String desc;
+    private String priorityLevel;
 
-    public TaskModel(String taskName, String date, String time) {
+    private boolean completed;
+
+
+
+    public void setCompleted(boolean completed){
+        this.completed=completed;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getPriorityLevel() {
+        return priorityLevel;
+    }
+
+    public void setPriorityLevel(String priorityLevel) {
+        this.priorityLevel = priorityLevel;
+    }
+
+    public TaskModel(String taskName, String date, String time, String desc, String priorityLevel) {
         this.taskName = taskName;
         this.date = date;
         this.time = time;
+        this.desc = desc;
+        this.priorityLevel = priorityLevel;
     }
 
     public String getTaskName() {
