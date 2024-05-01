@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="listBackground">#f2f3f5</color>
+    <color name="bucctonColor">#0a58f6</color>
 </resources>
