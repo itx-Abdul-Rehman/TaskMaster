@@ -63,11 +63,17 @@ public class Dashboard extends AppCompatActivity {
              }else if(R.id.setting==itemID){
 
              }else if(R.id.dueDate==itemID){
-
+                 Collections.sort(taskModels);
+                 finish();
+                 startActivity(getIntent());
 
              }else if(R.id.completetion==itemID){
 
              }else if(R.id.priorityLevel==itemID){
+
+               Collections.sort(taskModels);
+               finish();
+               startActivity(getIntent());
 
              }
 

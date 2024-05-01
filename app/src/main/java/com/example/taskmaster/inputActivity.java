@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Calendar;
 
 public class inputActivity extends AppCompatActivity {
@@ -45,6 +48,7 @@ public class inputActivity extends AppCompatActivity {
                     taskName.setError("Enter name of task");
                 }else{
                     TaskModel taskModel=new TaskModel(name,date,time,remarks,prtLevel);
+                    writeTaskToFile(name,remarks,date,time,prtLevel);
                     taskModels.add(taskModel);
                     Intent intent=new Intent(inputActivity.this,Dashboard.class);
                     startActivity(intent);
@@ -105,5 +109,26 @@ public class inputActivity extends AppCompatActivity {
                 }, hourOfDay, minute, true);
         timePickerDialog.show();
         time=hourOfDay+":"+minute;
+    }
+
+    public void writeTaskToFile(String taskName, String description, String date, String time, String priority)
+    {
+
+        try
+        {
+            FileWriter fileWriter=new FileWriter("taskDetails",true);
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+            writer.write( taskName);
+            writer.write(",");
+            writer.write(description);
+            writer.write(",");
+            writer.write(date);
+            writer.write(time);
+            writer.write(",");
+            writer.write(priority);
+            Toast.makeText(inputActivity.this,"Write",Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

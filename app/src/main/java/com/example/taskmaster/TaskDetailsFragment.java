@@ -4,6 +4,7 @@ import static com.example.taskmaster.MyApplication.taskModels;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.fragment.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ public class TaskDetailsFragment extends Fragment {
     TextView taskName,date,time;
    String newDate,newTime;
     EditText remarks,priorityLevel;
+    Button delete;
 
     int pos;
 
@@ -48,6 +51,7 @@ public class TaskDetailsFragment extends Fragment {
         time=view.findViewById(R.id.time);
         remarks=view.findViewById(R.id.desc);
         priorityLevel=view.findViewById(R.id.priorityLevel);
+        delete=view.findViewById(R.id.delete);
 
         TaskModel taskModel=taskModels.get(pos);
         taskName.setText(taskModel.getTaskName());
@@ -55,6 +59,16 @@ public class TaskDetailsFragment extends Fragment {
         time.setText(taskModel.getTime());
         remarks.setText(taskModel.getDesc());
         priorityLevel.setText(taskModel.getPriorityLevel());
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskModels.remove(pos);
+                Intent intent=new Intent(getContext(),Dashboard.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
 
 
     }
@@ -101,5 +115,7 @@ public class TaskDetailsFragment extends Fragment {
         timePickerDialog.show();
         newTime=hourOfDay+":"+minute;
     }
+
+
 
 }

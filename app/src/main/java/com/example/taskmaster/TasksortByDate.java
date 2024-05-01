@@ -1,6 +1,7 @@
 package com.example.taskmaster;
 
-public class TaskModel  implements Comparable<TaskModel>{
+public class TasksortByDate implements Comparable<TaskModel>{
+
     private String taskName;
     private String date;
     private String time;
@@ -35,7 +36,7 @@ public class TaskModel  implements Comparable<TaskModel>{
         this.priorityLevel = priorityLevel;
     }
 
-    public TaskModel(String taskName, String date, String time, String desc, String priorityLevel) {
+    public TasksortByDate(String taskName, String date, String time, String desc, String priorityLevel) {
         this.taskName = taskName;
         this.date = date;
         this.time = time;
@@ -69,13 +70,6 @@ public class TaskModel  implements Comparable<TaskModel>{
 
     @Override
     public int compareTo(TaskModel o) {
-        int priorityComparison = this.priorityLevel.compareTo(o.priorityLevel);
-        if (priorityComparison != 0) {
-            return priorityComparison;
-        }
-        // If priorities are the same, compare by due date
-        return this.date.compareTo(o.date);
+        return this.date.compareTo(o.getDate());
     }
-
-
 }
