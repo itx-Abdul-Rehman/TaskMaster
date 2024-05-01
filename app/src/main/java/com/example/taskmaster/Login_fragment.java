@@ -27,6 +27,8 @@ public class Login_fragment extends Fragment {
     int frame_layout;
     Context parent;
 
+    SharedPreferences sharedPreferences;
+
     public Login_fragment() {
 
     }
@@ -49,8 +51,9 @@ public class Login_fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_login_fragment,container,false);
 
-      //  Bundle myBundle=Login_fragment.this.getArguments();
-        //frame_layout=myBundle.getInt("myFrame");
+       sharedPreferences=getActivity().getSharedPreferences("users",Context.MODE_PRIVATE);
+       String frame_layoutID=sharedPreferences.getString("frame_layout","");
+       frame_layout=Integer.parseInt(frame_layoutID);
 
         email=view.findViewById(R.id.emailAddress);
         password=view.findViewById(R.id.password);
@@ -85,7 +88,7 @@ public class Login_fragment extends Fragment {
         }else if(pass.isEmpty()){
             password.setError("Enter Password");
         }else{
-            SharedPreferences sharedPreferences= getActivity().getSharedPreferences("users",Context.MODE_PRIVATE);
+            sharedPreferences= getActivity().getSharedPreferences("users",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor=sharedPreferences.edit();
             String userEmail=sharedPreferences.getString("Email","");
             String userPassword=sharedPreferences.getString("Password","");

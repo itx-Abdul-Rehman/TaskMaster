@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -28,15 +29,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        int frame_layout=R.id.frameLayout;
+
         //--------------- create object signin and signup fragment---------------------------------
         signin_Fragment=new Login_fragment();
         signup_fragment=new Signup_Fragment();
 
         //-----------------set  default fragment to main activity------------------------------------------
         SharedPreferences sharedPreferences=getSharedPreferences("users",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
         boolean check=sharedPreferences.getBoolean("isSignin",false);
+        editor.putString("frame_layout",frame_layout+"");
+        editor.apply();
+
         if(check==true){
-            transactionFragment(signin_Fragment);
+            Intent intent=new Intent(MainActivity.this,Dashboard.class);
+            startActivity(intent);
+            finish();
         }else{
             transactionFragment(signup_fragment);
         }
@@ -47,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
        bundle.putInt("framelayout",R.id.frameLayout);
        signup_fragment.setArguments(bundle);
 
-       Bundle myBundle=new Bundle();
-       myBundle.putInt("myFrame",R.id.frameLayout);
-       signin_Fragment.setArguments(myBundle);
+
 
 
 
