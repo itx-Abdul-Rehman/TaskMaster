@@ -1,5 +1,7 @@
 package com.example.taskmaster;
 
+import static com.example.taskmaster.MyApplication.taskModels;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,6 +20,11 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     FrameLayout frameLayout;
@@ -29,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         int frame_layout=R.id.frameLayout;
 
         //--------------- create object signin and signup fragment---------------------------------
@@ -39,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences=getSharedPreferences("users",MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         boolean check=sharedPreferences.getBoolean("isSignin",false);
-        editor.putString("frame_layout",frame_layout+"");
+        editor.putInt("frame_layout",frame_layout);
         editor.apply();
 
         if(check==true){
@@ -47,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else{
-            transactionFragment(signin_Fragment);
+            transactionFragment(signup_fragment);
         }
 
 
@@ -69,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.frameLayout,fragment);
         ft.commit();
     }
+
 
 
     //----------------

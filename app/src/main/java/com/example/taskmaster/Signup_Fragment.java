@@ -128,6 +128,7 @@ public class Signup_Fragment extends Fragment {
         FragmentTransaction ft=fm.beginTransaction();
         ft.replace(frame_layout,fragment);
         ft.commit();
+        ft.addToBackStack(null);
     }
 
 }

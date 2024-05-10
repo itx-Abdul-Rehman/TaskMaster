@@ -24,7 +24,7 @@ public class Login_fragment extends Fragment {
     EditText email,password;
     Button signinButton;
     TextView signup;
-    int frame_layout;
+    int frame_layout2;
     Context parent;
 
     SharedPreferences sharedPreferences;
@@ -52,8 +52,8 @@ public class Login_fragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_login_fragment,container,false);
 
        sharedPreferences=getActivity().getSharedPreferences("users",Context.MODE_PRIVATE);
-       String frame_layoutID=sharedPreferences.getString("frame_layout","");
-       frame_layout=Integer.parseInt(frame_layoutID);
+       int frame_layoutID=sharedPreferences.getInt("frame_layout",0);
+       frame_layout2=frame_layoutID;
 
         email=view.findViewById(R.id.emailAddress);
         password=view.findViewById(R.id.password);
@@ -115,7 +115,7 @@ public class Login_fragment extends Fragment {
    private void transactionFragment(Fragment fragment){
        FragmentManager fm=getActivity().getSupportFragmentManager();
        FragmentTransaction ft=fm.beginTransaction();
-       ft.replace(frame_layout,fragment);
+       ft.replace(frame_layout2,fragment);
        ft.commit();
    }
 

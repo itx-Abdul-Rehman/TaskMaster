@@ -28,6 +28,10 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -35,16 +39,21 @@ import java.util.ArrayList;
 public class TaskListFragment extends Fragment implements  ItemClickListener {
     View view,cardsView;
     View popupView;
+    TextView noTask;
     Button addButton;
     RecyclerView recyclerView;
     RadioButton radioButton;
-   // ArrayList<TaskModel> taskModels=new ArrayList<>();
 
     TextView taskName,date,time;
     public TaskListFragment() {
 
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +62,7 @@ public class TaskListFragment extends Fragment implements  ItemClickListener {
        cardsView=inflater.inflate(R.layout.my_task_list_layout,container,false);
         popupView=inflater.inflate(R.layout.activity_dashboard,container,false);
         view=inflater.inflate(R.layout.fragment_task_list, container, false);
+
 
         return  view;
     }
@@ -63,8 +73,12 @@ public class TaskListFragment extends Fragment implements  ItemClickListener {
 
         recyclerView=view.findViewById(R.id.recyclerView);
         addButton=view.findViewById(R.id.button);
+        noTask=view.findViewById(R.id.noTask);
         radioButton=cardsView.findViewById(R.id.radioButton);
 
+        if(taskModels.size()!=0){
+            noTask.setVisibility(View.GONE);
+        }
 
         MyTaskListAdpater myTaskListAdpater=new MyTaskListAdpater(taskModels);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
@@ -79,22 +93,15 @@ public class TaskListFragment extends Fragment implements  ItemClickListener {
             }
         });
 
-
-
        myTaskListAdpater.onItemClickListener(this);
 
     }
 
 
-
-
-
     @Override
     public void onCLick(View v, int pos) {
-        Toast.makeText(getContext(),taskModels.get(pos).getTaskName(),
-                Toast.LENGTH_LONG).show();
-
-
+        RadioButton radioButton1;
+        radioButton1=v.findViewById(R.id.radioButton);
         FragmentManager manager;
         TaskDetailsFragment taskDetailsFragment=new TaskDetailsFragment(pos);
         manager=getActivity().getSupportFragmentManager();

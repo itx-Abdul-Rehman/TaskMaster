@@ -33,6 +33,9 @@ public class TaskDetailsFragment extends Fragment {
 
     int pos;
 
+    public  TaskDetailsFragment(){
+
+    }
    public TaskDetailsFragment(int pos){
        this.pos=pos;
    }

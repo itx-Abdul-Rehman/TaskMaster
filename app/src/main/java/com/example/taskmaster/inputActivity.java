@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
@@ -82,14 +83,14 @@ public class inputActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         // Handle date selection
-                        String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                        showTimePickerDialog(selectedDate);
+                        date = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                        showTimePickerDialog(date);
                     }
                 }, year, month, dayOfMonth);
 
 
         datePickerDialog.show();
-        date=""+dayOfMonth+" "+month+",";
+
     }
 
     private void showTimePickerDialog(final String selectedDate) {
@@ -111,22 +112,18 @@ public class inputActivity extends AppCompatActivity {
         time=hourOfDay+":"+minute;
     }
 
-    public void writeTaskToFile(String taskName, String description, String date, String time, String priority)
-    {
-
-        try
-        {
-            FileWriter fileWriter=new FileWriter("taskDetails",true);
+    public void writeTaskToFile(String taskName, String description, String date, String time, String priority) {
+        try {
+            File file = new File(getFilesDir(), "taskDetails.txt");
+            FileWriter fileWriter = new FileWriter(file, true);
             BufferedWriter writer = new BufferedWriter(fileWriter);
-            writer.write( taskName);
-            writer.write(",");
-            writer.write(description);
-            writer.write(",");
-            writer.write(date);
-            writer.write(time);
-            writer.write(",");
-            writer.write(priority);
-            Toast.makeText(inputActivity.this,"Write",Toast.LENGTH_LONG).show();
+            writer.write(taskName + ",");
+            writer.write(description + ",");
+            writer.write(date + ",");
+            writer.write(time + ",");
+            writer.write(priority + "\n");
+            writer.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
